@@ -1,0 +1,82 @@
+.container {
+  display: flex;
+  background: #f2f3ff;
+  min-width: 1024px;
+  min-height: 768px;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+.section {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.profileCard {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.photo {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.distanceCard {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: white;
+  border-radius: 15px;
+  padding: 10px;
+  margin-left: 20px;
+}
+
+.graphs {
+  display: flex;
+  gap: 20px;
+}
+
+.graph {
+  flex: 1;
+  background: #f5f5f5;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.weekStats {
+  display: flex;
+  gap: 20px;
+}
+
+.circle {
+  width: 150px;
+  height: 150px;
+  background: #0b23f4;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detailCard {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}

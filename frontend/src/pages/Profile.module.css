@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  background: #f2f3ff;
+  min-width: 1024px;
+  min-height: 768px;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+}
+
+.photo {
+  width: 100%;
+  max-width: 150px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.statCard {
+  background: #0b23f4;
+  border-radius: 15px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
