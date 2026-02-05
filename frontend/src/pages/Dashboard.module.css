@@ -1,20 +1,33 @@
-.container {
-  display: flex;
-  background: #f2f3ff;
+body {
+  background-color: #f2f3ff;
+  margin: auto; 
   min-width: 1024px;
   min-height: 768px;
+  max-width: 1440px;
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  background: #f2f3ff;
 }
 
 .main {
-  flex: 1;
+  margin: auto;
   padding: 20px;
+  max-width: 1140px;
 }
 
 .section {
+  margin-bottom: 24px;
+}
+
+/* Section 1 */
+.profileSection {
+  display: flex;
+  justify-content: space-between;
   background: white;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 20px;
+  border-radius: 16px;
+  align-items: center;
 }
 
 .profileCard {
@@ -30,53 +43,218 @@
   border-radius: 10px;
 }
 
-.distanceCard {
+.name,
+.memberSince {
+  margin: 0;
+}
+
+.userInfo {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  gap: 6px; /* espace entre les deux */
+}
+.distanceWrapper {
+  display: flex;
   align-items: center;
-  background: white;
-  border-radius: 15px;
-  padding: 10px;
-  margin-left: 20px;
+  gap: 8px;
+}
+
+/* Texte au-dessus */
+.label {
+  font-size: 14px;
+  color: #555;
+  margin: 0;
+}
+
+/* Carte */
+.distanceCard {
+  background: #0b23f4;;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Icône */
+.icon {
+  font-size: 24px;
+}
+
+/* Valeur */
+.value {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: white;
+}
+
+/* Section 2 */
+.performanceSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .graphs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.graphCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.graphHeader {
   display: flex;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.titleBlue {
+  color: #0b23f4;
+  font-weight: 600;
+}
+
+.titleRed {
+  color: #f4320b;
+  font-weight: 600;
+}
+
+.periodSelector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.periodSelector button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.summary {
+  margin: 12px 0;
+  font-size: 14px;
+  color: #666;
 }
 
 .graph {
-  flex: 1;
-  background: #f5f5f5;
-  height: 200px;
-  border-radius: 10px;
-}
-
-.weekStats {
-  display: flex;
-  gap: 20px;
-}
-
-.circle {
-  width: 150px;
-  height: 150px;
-  background: #0b23f4;
-  border-radius: 50%;
-  color: white;
+  height: 160px;
+  background: #f2f3ff;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.legend {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: #444;
+}
+
+/* Section 3 */
+.weekSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.weekStats {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Donut Card */
+.donutCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  width: 200px;
+  flex: 1;  
+}
+
+.donutHeader {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.donutTitle {
+  font-size: 16px;
+  color: #999; /* plus petit et plus clair */
+}
+
+.donutValue {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0b23f4;
+}
+
+.donutLabel {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.donut {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+  background: #f2f3ff; /* placeholder pour donut */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+}
+
+/* Détails durée et distance */
 .details {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
+  flex: 1;  
 }
 
 .detailCard {
   background: white;
-  border-radius: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.detailTitleBlue {
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0 0 4px 0;
+}
+
+.detailValue,
+.detailValueRed {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+
+.detailValue {
+  color: #0b23f4;
+}
+
+.detailValueRed {
+  color: #f4320b;
 }

@@ -1,12 +1,19 @@
-.container {
-  display: flex;
-  background: #f2f3ff;
+body {
+  background-color: #f2f3ff;
+  margin: auto; 
   min-width: 1024px;
   min-height: 768px;
+  max-width: 1440px;
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+background: #f2f3ff;
+max-height: max-content;
 }
 
 .main {
-  flex: 1;
+  margin: auto;
   display: flex;
   gap: 20px;
   padding: 20px;
@@ -21,8 +28,8 @@
 
 .right {
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
   gap: 20px;
 }
 

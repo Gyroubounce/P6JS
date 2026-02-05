@@ -9,7 +9,10 @@ const Sidebar = () => {
       <nav className={styles.menu}>
         <Link to="/" className={styles.link}>Dashboard</Link>
         <Link to="/profile" className={styles.link}>Mon profil</Link>
-        <button className={styles.link}>Déconnexion</button>
+         {/* Séparateur */}
+        <div className={styles.separator}></div>
+        <button className={styles.logout}>Déconnexion</button>
+
       </nav>
     </div>
   );

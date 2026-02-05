@@ -40,9 +40,17 @@ const Profile = () => {
             <p>Nombre de sessions</p>
             <h2>30</h2>
           </div>
-        </div>
-        <Footer />
+            <div className={styles.statCard}>
+              <p>Calories brûlées</p>
+              <h2>25 000 cal</h2>
+            </div>
+            <div className={styles.statCard}>
+              <p>Nombre de jours de repos</p>
+              <h2>9 jours</h2>
+            </div>
+          </div>
       </div>
+      <Footer />
     </div>
   );
 };
