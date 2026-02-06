@@ -1,18 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();           // supprime token + userId
+    navigate("/");      // redirige vers login
+  };
+
   return (
     <div className={styles.sidebar}>
       <div className={styles.logo}>SportSee</div>
       <nav className={styles.menu}>
-        <Link to="/" className={styles.link}>Dashboard</Link>
+        <Link to="/dashboard" className={styles.link}>Dashboard</Link>
         <Link to="/profile" className={styles.link}>Mon profil</Link>
-         {/* Séparateur */}
-        <div className={styles.separator}></div>
-        <button className={styles.logout}>Déconnexion</button>
 
+        {/* Séparateur */}
+        <div className={styles.separator}></div>
+
+        <button onClick={handleLogout} className={styles.logout}>
+          Déconnexion
+        </button>
       </nav>
     </div>
   );
