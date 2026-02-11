@@ -1,16 +1,16 @@
-
+import { parseLocalDate } from "./dateUtils";
 
 // 🔥 1) Construire des blocs de 4 semaines réelles (28 jours)
 export const get4WeekBlocks = (sessions) => {
   if (!sessions.length) return [];
 
-  // Trier les sessions par date
+  // Trier les sessions par date (LOCAL)
   const sorted = [...sessions].sort(
-    (a, b) => new Date(a.date) - new Date(b.date)
+    (a, b) => parseLocalDate(a.date) - parseLocalDate(b.date)
   );
 
-  const firstDate = new Date(sorted[0].date);
-  const lastDate = new Date(sorted[sorted.length - 1].date);
+  const firstDate = parseLocalDate(sorted[0].date);
+  const lastDate = parseLocalDate(sorted[sorted.length - 1].date);
 
   const blocks = [];
   let start = new Date(firstDate);
@@ -43,7 +43,7 @@ export const getWeeklyDistanceForBlock = (sessions, block) => {
 
     const km = sessions
       .filter((s) => {
-        const d = new Date(s.date);
+        const d = parseLocalDate(s.date);
         return d >= weekStart && d <= weekEnd;
       })
       .reduce((sum, s) => sum + s.distance, 0);
@@ -51,7 +51,7 @@ export const getWeeklyDistanceForBlock = (sessions, block) => {
     result.push({
       week: `S${i + 1}`,
       km: Number(km.toFixed(1)),
-      startDate: new Date(weekStart), 
+      startDate: new Date(weekStart),
       endDate: new Date(weekEnd),
     });
 
@@ -62,37 +62,10 @@ export const getWeeklyDistanceForBlock = (sessions, block) => {
   return result;
 };
 
-// 🔥 3) BPM repos / effort
-export const getHeartRateSummary = (sessions) => {
-  if (sessions.length === 0) return [];
-
-  const avgRest = Math.round(
-    sessions.reduce((sum, s) => sum + s.heartRate.min, 0) / sessions.length
-  );
-
-  const avgEffort = Math.round(
-    sessions.reduce((sum, s) => sum + s.heartRate.max, 0) / sessions.length
-  );
-
-  return [
-    { name: "Repos", bpm: avgRest },
-    { name: "Effort", bpm: avgEffort },
-  ];
-};
-
-// 🔥 4) Donut sessions réalisées vs objectif
-export const getDonutData = (sessions, goal = 6) => {
-  const done = sessions.length;
-  return [
-    { name: "Réalisé", value: done },
-    { name: "Restant", value: Math.max(goal - done, 0) },
-  ];
-};
-
-// 🔥 5) Moyenne du bloc
+// 🔥 3) Moyenne du bloc
 export const getAverageKmForBlock = (sessions, block) => {
   const filtered = sessions.filter((s) => {
-    const d = new Date(s.date);
+    const d = parseLocalDate(s.date);
     return d >= block.startDate && d <= block.endDate;
   });
 
@@ -100,4 +73,62 @@ export const getAverageKmForBlock = (sessions, block) => {
 
   const total = filtered.reduce((sum, s) => sum + s.distance, 0);
   return Number((total / filtered.length).toFixed(1));
+};
+
+// 🔥 Nouveau : BPM min / max / moyenne par jour
+export const getHeartRateSummary = (sessions) => {
+  if (sessions.length === 0) return [];
+
+  const days = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
+
+  const grouped = {};
+
+  sessions.forEach((s) => {
+    const date = parseLocalDate(s.date);
+    const dayIndex = (date.getDay() + 6) % 7; // Lundi = 0
+    const dayName = days[dayIndex];
+
+    if (!grouped[dayName]) {
+      grouped[dayName] = { min: [], max: [], avg: [] };
+    }
+
+    grouped[dayName].min.push(s.heartRate.min);
+    grouped[dayName].max.push(s.heartRate.max);
+    grouped[dayName].avg.push((s.heartRate.min + s.heartRate.max) / 2);
+  });
+
+  return days.map((day) => {
+    if (!grouped[day]) {
+      return { day, min: 0, max: 0, avg: 0 };
+    }
+
+    const min = Math.round(
+      grouped[day].min.reduce((a, b) => a + b, 0) / grouped[day].min.length
+    );
+
+    const max = Math.round(
+      grouped[day].max.reduce((a, b) => a + b, 0) / grouped[day].max.length
+    );
+
+    const avg = Math.round(
+      grouped[day].avg.reduce((a, b) => a + b, 0) / grouped[day].avg.length
+    );
+
+    return { day, min, max, avg };
+  });
+};
+
+export const getBPM = (sessions) => {
+  if (!sessions || sessions.length === 0) {
+    return { avgHeartRate: 0 };
+  }
+
+  const avgHeartRate = Math.round(
+    sessions.reduce(
+      (sum, s) => sum + (s.heartRate.min + s.heartRate.max) / 2,
+      0
+    ) / sessions.length
+  );
+
+  return { avgHeartRate };
 };

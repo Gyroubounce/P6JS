@@ -14,7 +14,16 @@ const Sidebar = () => {
 
   return (
     <div className={styles.sidebar}>
-      <div className={styles.logo}>SportSee</div>
+      <div className={styles.brand}> 
+        <div className={styles.graphIcon}> 
+          <span className={styles.bar}></span> 
+          <span className={styles.bar}></span> 
+          <span className={styles.bar}></span> 
+          <span className={styles.bar}></span> 
+          <span className={styles.bar}></span> 
+        </div> 
+        <div className={styles.logo}>SportSee</div> 
+      </div>
       <nav className={styles.menu}>
         <Link to="/dashboard" className={styles.link}>Dashboard</Link>
         <Link to="/profile" className={styles.link}>Mon profil</Link>

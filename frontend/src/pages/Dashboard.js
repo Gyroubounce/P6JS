@@ -14,52 +14,103 @@ import {
   PieChart,
   Pie,
   Cell,
-  Legend
+  Legend,
+  ComposedChart,
+  Line
 } from "recharts";
 
-// 🔥 Import des utilitaires
 import {
   get4WeekBlocks,
   getWeeklyDistanceForBlock,
   getHeartRateSummary,
-  getDonutData,
+  getBPM,
   getAverageKmForBlock
 } from "../utils/transformData";
 
-
-
+import { getWeekRange, getCurrentWeekRange, parseLocalDate, formatDateTimeFR } from "../utils/dateUtils";
+import { computeWeeklyStats } from "../utils/WeekUtils";
 
 const Dashboard = () => {
-  const { userData, loading, weekBlockIndex, setWeekBlockIndex } = useUser();
-  const [activeIndex, setActiveIndex] = useState(null);
+  const { userData, loading } = useUser();
 
+  // 🔥 HOOKS
+  const [isHovered, setIsHovered] = useState(false);
+  const [distanceIndex, setDistanceIndex] = useState(0);
+  const [bpmIndex, setBpmIndex] = useState(0);
+
+  // 🔥 LOADING / NO DATA
   if (loading) return <p>Chargement des données...</p>;
-  if (!userData) return <p>Impossible de récupérer les informations utilisateur.</p>;
-
-  const { profile, statistics, sessions } = userData;
-
-  // 🔥 Construire les blocs de 4 semaines
-  const blocks = get4WeekBlocks(sessions);
-  const currentBlock = blocks[weekBlockIndex] || blocks[0];
+  if (!userData) return <p>Aucune donnée utilisateur.</p>;
+  if (!userData.sessions || userData.sessions.length === 0) {
+  return <p>Aucune session trouvée.</p>;
+}
 
 
-  // 🔥 Données dynamiques du bloc
-  const weeklyDistanceData = getWeeklyDistanceForBlock(sessions, currentBlock);
-  const heartRateData = getHeartRateSummary(sessions);
-  const donutData = getDonutData(sessions, 6);
-  const averageKm = getAverageKmForBlock(sessions, currentBlock);
+  // 🔥 SÉCURISATION DES DONNÉES
+  const profile = userData.profile ?? {};
+  const statistics = userData.statistics ?? {};
+  const safeSessions = Array.isArray(userData.sessions) ? userData.sessions : [];
 
-  const format = (d) => d.toLocaleDateString("fr-FR", { day: "2-digit", month: "short" });
-  
-  // Navigation entre blocs
-  const changeBlock = (direction) => {
-    const newIndex = weekBlockIndex + direction;
+  // ------------------------------------------------------------
+  // 🔵 BLOC DISTANCE (4 semaines)
+  // ------------------------------------------------------------
+  const blocks = get4WeekBlocks(safeSessions);
+  const distanceBlock = blocks[distanceIndex] ?? blocks[0] ?? null;
+
+  const weeklyDistanceData = distanceBlock
+    ? getWeeklyDistanceForBlock(safeSessions, distanceBlock)
+    : [];
+
+  const averageKm = distanceBlock
+    ? getAverageKmForBlock(safeSessions, distanceBlock)
+    : 0;
+
+  const changeDistanceBlock = (direction) => {
+    const newIndex = distanceIndex + direction;
     if (newIndex >= 0 && newIndex < blocks.length) {
-      setWeekBlockIndex(newIndex);
+      setDistanceIndex(newIndex);
     }
   };
 
-  const COLORS = ["#4e73df", "#e0e0e0"];
+  // ------------------------------------------------------------
+  // 🔴 BLOC BPM (semaine)
+  // ------------------------------------------------------------
+  const weeks = safeSessions
+    .map((s) => getWeekRange(parseLocalDate(s.date)))
+    .filter(
+      (week, index, arr) =>
+        index === arr.findIndex((w) => w.start.getTime() === week.start.getTime())
+    )
+    .sort((a, b) => a.start - b.start);
+
+  const bpmWeek = weeks[bpmIndex] ?? weeks[0] ?? null;
+
+  const changeBpmBlock = (direction) => {
+    const newIndex = bpmIndex + direction;
+    if (newIndex >= 0 && newIndex < weeks.length) {
+      setBpmIndex(newIndex);
+    }
+  };
+
+  const sessionsForBpmWeek = bpmWeek
+    ? safeSessions.filter((s) => {
+        const d = parseLocalDate(s.date);
+        return d >= bpmWeek.start && d <= bpmWeek.end;
+      })
+    : [];
+
+  const bpm = getBPM(sessionsForBpmWeek);
+  const heartRateData = getHeartRateSummary(sessionsForBpmWeek);
+
+  // ------------------------------------------------------------
+  // 🔘 DONUT
+  // ------------------------------------------------------------
+  
+
+  const format = (d) =>
+    d.toLocaleDateString("fr-FR", { day: "2-digit", month: "short" });
+
+
 
   const getYTicks = () => {
     const maxKm = Math.max(...weeklyDistanceData.map((d) => d.km), 10);
@@ -71,22 +122,65 @@ const Dashboard = () => {
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
       const km = payload[0].value;
-      const data = payload[0].payload; 
-      const format = (d) => 
-        d.toLocaleDateString("fr-FR", { day: "2-digit", month: "short" });
+      const data = payload[0].payload;
 
       return (
         <div className={styles.customTooltip}>
           <div className={styles.tooltipLabel}>
             {format(data.startDate)} - {format(data.endDate)}
           </div>
-
           <div className={styles.tooltipValue}>{km} km</div>
         </div>
       );
     }
     return null;
   };
+
+  const CustomLegend = () => {
+    return (
+      <div style={{
+        display: "flex",
+        gap: "12px",
+        marginLeft: "30px",
+         
+      }}>
+
+        
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#fcc1b6" }}></span>
+          <span>Min</span>
+        </div>
+
+         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#f4320b" }}></span>
+          <span>Max</span>
+        </div>
+
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#0b23f4" }}></span>
+          <span>Moy</span>
+        </div>
+
+                
+      </div>
+    );
+  };
+
+
+  const { weekStart, weekEnd, formattedStart, formattedEnd } = getCurrentWeekRange();
+
+const {
+  done,
+  remaining,
+  weeklyDuration,
+  weeklyDistance,
+  donutData,
+} = computeWeeklyStats(safeSessions, weekStart);
+
+console.log(
+  "Dates des 10 dernières sessions :",
+  safeSessions.slice(-10).map(s => s.date)
+);
 
   return (
     <div className={styles.container}>
@@ -96,26 +190,28 @@ const Dashboard = () => {
         {/* Section 1 – Profil */}
         <section className={`${styles.section} ${styles.profileSection}`}>
           <div className={styles.profileCard}>
-            <img
-              src={profile.profilePicture || "/avatar.png"}
-              alt="Profil"
-              className={styles.photo}
-            />
+           <div className={styles.photo}>
+              <img
+                src={profile.profilePicture || "/avatar.png"}
+                alt="Profil"
+              />
+            </div>
+
             <div className={styles.userInfo}>
               <h2 className={styles.name}>
                 {profile.firstName} {profile.lastName}
               </h2>
               <p className={styles.memberSince}>
-                Membre depuis {profile.createdAt}
+                Membre depuis le {formatDateTimeFR(profile.createdAt)}
               </p>
             </div>
           </div>
 
           <div className={styles.distanceWrapper}>
-            <p className={styles.label}>Distance totale</p>
+            <p className={styles.label}>Distance totale parcourue</p>
             <div className={styles.distanceCard}>
               <span className={styles.icon}>🏃‍♂️</span>
-              <h2 className={styles.value}>{statistics.totalDistance} km</h2>
+              <h2 className={styles.value}>{statistics.totalDistance ?? 0} km</h2>
             </div>
           </div>
         </section>
@@ -126,16 +222,19 @@ const Dashboard = () => {
 
           <div className={styles.graphs}>
 
-            {/* Graphique distance */}
+            {/* 🔵 Graphique Distance */}
             <div className={styles.graphCard}>
               <div className={styles.graphHeader}>
-                <h4 className={styles.titleBlue}>{averageKm} km en moyenne</h4>
+                <h4 className={styles.titleBlue}>{averageKm}km en moyenne</h4>
 
                 <div className={styles.periodSelector}>
-                  <button onClick={() => changeBlock(-1)}>{"<"}</button>
-                    <span>  {format(currentBlock.startDate)} - {format(currentBlock.endDate)}</span>
-
-                  <button onClick={() => changeBlock(1)}>{">"}</button>
+                  <button onClick={() => changeDistanceBlock(-1)}>{"<"}</button>
+                  <span>
+                    {distanceBlock
+                      ? `${format(distanceBlock.startDate)} – ${format(distanceBlock.endDate)}`
+                      : "Aucune donnée"}
+                  </span>
+                  <button onClick={() => changeDistanceBlock(1)}>{">"}</button>
                 </div>
               </div>
 
@@ -145,59 +244,48 @@ const Dashboard = () => {
 
               <div className={styles.graph}>
                 <ResponsiveContainer>
-                  <BarChart data={weeklyDistanceData} margin={{ top: 20, right: 40, left: 0, bottom: 10 }}>
-                    <XAxis
-                      dataKey="week"
-                      tickLine={false}
-                      tick={{ fontSize: 12, fill: "#666", dy: 10 }}
-                    />
-                    <YAxis
-                      tickLine={false}
-                      ticks={getYTicks()}
-                      tick={{ fontSize: 12, fill: "#666", dx: -10 }}
-                    />
+                  <BarChart
+                    data={weeklyDistanceData}
+                    margin={{ top: 20, right: 40, left: 0, bottom: 10 }}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    <XAxis dataKey="week" tickLine={false} tick={{ fontSize: 11, dy: 15 }} />
+                    <YAxis tickLine={false} ticks={getYTicks()} tick={{ fontSize: 11, dx: -10 }}  />
                     <Tooltip content={<CustomTooltip />} />
-                   <Legend
-                      verticalAlign="bottom"
-                      align="left"
-                      iconType="circle"
-                      iconSize={10}                     
-                      wrapperStyle={{ left: 20 }}       
-                      payload={[
-                        { value: "Km", type: "circle", color: "#0b23f4" }, // couleur du cercle
-                      ]}
-                      formatter={(value, entry, index) => (
-                        <span style={{ color: "#666", fontSize: 12 }}>{value}</span> 
-                      )}
-                    />
-
-                    <Bar
-                      dataKey="km"
-                      barSize={12}
-                      radius={[8, 8, 8, 8]}
-                      onMouseEnter={(data, index) => setActiveIndex(index)}
-                      onMouseLeave={() => setActiveIndex(null)}
-                    >
+                  
+                    <Bar dataKey="km" barSize={14} radius={[10, 10, 10, 10]}>
                       {weeklyDistanceData.map((entry, index) => (
-                        <Cell
-                          key={index}
-                          fill={index === activeIndex ? "#0b23f4" : "#b6bdfc"}
-                        />
+                        <Cell key={index} fill={isHovered ? "#0b23f4" : "#b6bdfc"} />
                       ))}
                     </Bar>
                   </BarChart>
                 </ResponsiveContainer>
               </div>
+              <div className={styles.customLegend}>
+                <div className={styles.legendItem}>
+                  <span className={styles.legendDot}></span>
+                  <span className={styles.legendText}>Km</span>
+                </div>
+              </div>
+
             </div>
 
-            {/* Graphique BPM */}
+            {/* 🔴 Graphique BPM */}
             <div className={styles.graphCard}>
               <div className={styles.graphHeader}>
-                <h4 className={styles.titleRed}>Fréquence cardiaque</h4>
+                <h4 className={styles.titleRed}>
+                  {bpm.avgHeartRate} BPM
+                </h4>
+
                 <div className={styles.periodSelector}>
+                  <button onClick={() => changeBpmBlock(-1)}>{"<"}</button>
                   <span>
-                    Semaines {currentBlock.startWeek} à {currentBlock.endWeek}
+                    {bpmWeek
+                      ? `${format(bpmWeek.start)} – ${format(bpmWeek.end)}`
+                      : "Aucune donnée"}
                   </span>
+                  <button onClick={() => changeBpmBlock(1)}>{">"}</button>
                 </div>
               </div>
 
@@ -205,77 +293,116 @@ const Dashboard = () => {
 
               <div className={styles.graph}>
                 <ResponsiveContainer>
-                  <BarChart data={heartRateData}>
-                    <XAxis dataKey="name" />
-                    <YAxis />
+                  <ComposedChart
+                    data={heartRateData}
+                    margin={{ top: 20, right: 20, left: 0, bottom: 20 }}
+                  >
+                    <XAxis dataKey="day" tickLine={false} tick={{ fontSize: 12, dy: 15 }} />
+                    <YAxis tickLine={false} tick={{ fontSize: 11, dx: -10 }} />
                     <Tooltip />
-                    <Bar dataKey="bpm" fill="#e74a3b" radius={[6, 6, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
 
-              <div className={styles.legend}>
-                <span className={styles.legendItem}>Repos</span>
-                <span className={styles.legendItem}>Effort</span>
+                    <Bar dataKey="min" barSize={12} fill="#fcc1b6" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="max" barSize={12} fill="#f4320b" radius={[6, 6, 0, 0]} />
+
+                    <Line
+                      type="monotone"
+                      dataKey="avg"
+                      stroke="#0b23f4"
+                      strokeWidth={3}
+                      dot={{ r: 5, fill: "#0b23f4" }}
+                    />
+
+                   <Legend content={<CustomLegend />} />
+
+                  </ComposedChart>
+                </ResponsiveContainer>
               </div>
             </div>
 
           </div>
         </section>
 
-        {/* Section 3 – Semaine */}
+        {/* Section 3 – Donut */}
         <section className={`${styles.section} ${styles.weekSection}`}>
-          <h3>Bloc de 4 semaines : {currentBlock.startWeek} → {currentBlock.endWeek}</h3>
+          <h3>Cette semaine</h3>
+
+          <p className={styles.dateWeek}>Du {formattedStart} au {formattedEnd}</p>
 
           <div className={styles.weekStats}>
             <div className={styles.donutCard}>
               <div className={styles.donutHeader}>
-                <span className={styles.donutTitle}>Objectif de 6</span>
-                <span className={styles.donutValue}>{sessions.length}</span>
+                <span className={styles.donutValue}>x{done}</span>
+                <span className={styles.donutTitle}> sur objectif de 6</span>
               </div>
 
-              <p className={styles.donutLabel}>Courses réalisées</p>
+              <p className={styles.donutLabel}>Courses hebdomadaire réalisées</p>
 
-              <div className={styles.donut}>
-                <ResponsiveContainer>
-                  <PieChart>
-                    <Pie
-                      data={donutData}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={80}
-                      startAngle={90}
-                      endAngle={-270}
-                    >
-                      {donutData.map((entry, index) => (
-                        <Cell key={index} fill={COLORS[index]} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
+              {/* 🔥 DONUT ROW — tout doit être dedans */}
+              <div className={styles.donutRow}>
 
+                {/* Légende gauche */}
+                <div className={styles.legendLeft}>
+                  <span className={styles.dotBlue}></span>
+                  <span>{done} Réalisées</span>
+                </div>
+
+                {/* Donut */}
+                <div className={styles.donut}>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart>
+                      <Pie
+                        data={donutData}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={40}
+                        outerRadius={80}
+                        startAngle={270}
+                        endAngle={-90}
+                      >
+                        <Cell fill="#0b23f4" />
+                        <Cell fill="#b6bdfc" />
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Légende droite */}
+                <div className={styles.legendRight}>
+                  <span className={styles.dotGrey}></span>
+                  <span>{remaining} Restantes</span>
+                </div>
+
+              </div> {/* 🔥 FIN donutRow */}
+
+            </div> {/* fin donutCard */}
+
+            {/* Détails */}
             <div className={styles.details}>
               <div className={styles.detailCard}>
-                <p className={styles.detailTitleBlue}>Durée totale</p>
-                <p className={styles.detailValue}>{statistics.totalDuration} min</p>
+                <p className={styles.detailTitleBlue}>Durée d'activité</p>
+                <p className={styles.detailValue}>
+                  {weeklyDuration}
+                  <span className={styles.unitBlue}> minutes</span>
+                </p>
               </div>
 
               <div className={styles.detailCard}>
-                <p className={styles.detailTitleBlue}>Distance totale</p>
-                <p className={styles.detailValueRed}>{statistics.totalDistance} km</p>
+                <p className={styles.detailTitleBlue}>Distance</p>
+                <p className={styles.detailValueRed}>
+                  {weeklyDistance.toFixed(1)}
+                  <span className={styles.unitRed}> kilomètres</span>
+                </p>
               </div>
             </div>
+
           </div>
         </section>
 
-      </div>
 
+      </div>
       <Footer />
     </div>
   );

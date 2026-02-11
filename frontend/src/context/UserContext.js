@@ -9,12 +9,20 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 🔥 Index du bloc de 4 semaines (0 = premier bloc)
-  const [weekBlockIndex, setWeekBlockIndex] = useState(0);
-
   useEffect(() => {
+    // 🔥 Tant que le token n'est pas encore chargé depuis localStorage,
+    // on NE FAIT RIEN. On attend.
+    if (token === null) {
+      return;
+    }
+
+    // 🔥 Si token = "" ou undefined → utilisateur non connecté
     if (!token) {
-      setUserData(null);
+      setUserData({
+        profile: {},
+        statistics: {},
+        sessions: [],
+      });
       setLoading(false);
       return;
     }
@@ -23,29 +31,49 @@ export const UserProvider = ({ children }) => {
       try {
         setLoading(true);
 
-        // 1) Profil + statistiques globales
+        // 1) Profil + statistiques
         const infoRes = await fetch("http://localhost:8000/api/user-info", {
+          method: "GET",
           headers: { Authorization: `Bearer ${token}` },
-        });
-        const info = await infoRes.json();
+                  });
 
-        // 2) 🔥 Récupérer TOUTES les sessions (pas filtrées par dates)
-        // On met une période très large pour tout récupérer
+        // 2) Sessions (toutes les sessions)
         const activityRes = await fetch(
-          `http://localhost:8000/api/user-activity?startWeek=2000-01-01&endWeek=2100-01-01`,
+          "http://localhost:8000/api/user-activity?startWeek=2000-01-01&endWeek=2100-01-01",
           {
+            method: "GET",
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+
+        // 🔥 Si l'un des deux échoue → fallback propre
+        if (!infoRes.ok || !activityRes.ok) {
+          console.warn("API renvoie une erreur → fallback userData vide");
+          setUserData({
+            profile: {},
+            statistics: {},
+            sessions: [],
+          });
+          return;
+        }
+
+        const info = await infoRes.json();
         const sessions = await activityRes.json();
 
         setUserData({
-          profile: info.profile,
-          statistics: info.statistics,
-          sessions, // 🔥 toutes les sessions, non filtrées
+          profile: info.profile ?? {},
+          statistics: info.statistics ?? {},
+          sessions: Array.isArray(sessions) ? sessions : [],
         });
       } catch (err) {
         console.error("Erreur UserContext :", err);
+
+        // 🔥 fallback en cas d'erreur réseau
+        setUserData({
+          profile: {},
+          statistics: {},
+          sessions: [],
+        });
       } finally {
         setLoading(false);
       }
@@ -55,14 +83,7 @@ export const UserProvider = ({ children }) => {
   }, [token]);
 
   return (
-    <UserContext.Provider
-      value={{
-        userData,
-        loading,
-        weekBlockIndex,
-        setWeekBlockIndex, // 🔥 navigation par blocs de 4 semaines
-      }}
-    >
+    <UserContext.Provider value={{ userData, loading }}>
       {children}
     </UserContext.Provider>
   );
