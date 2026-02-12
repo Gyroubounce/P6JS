@@ -6,8 +6,8 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.left}>
-        <span className={styles.logo}>SportSee</span>
-        <span>Tous droits réservés</span>
+        <span className={styles.logo}>© SportSee</span>
+        <span className={styles.text}>Tous droits réservés</span>
       </div>
       <div className={styles.right}>
           <Link to="/conditions" className={styles.link}>Conditions générales</Link>

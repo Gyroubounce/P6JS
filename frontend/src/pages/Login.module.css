@@ -1,62 +1,132 @@
-.sidebar {
-  padding: 20px;
+
+.loginPage {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+
+  height: 100vh;
+  background: #f2f3ff;
 }
 
+/* --- Colonne gauche --- */
+.leftSide {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+/* Mini header */
+.headerMini {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: absolute; 
+  top: 30px; 
+  left: auto;
+}
+
+
+
+.bar {
+  width: 4px;
+  height: 14px;
+  background: #0b23f4;
+  border-radius: 2px;
+}
+
+/* Logo */
 .logo {
   font-size: 28px;
-  font-weight: bold;
+  font-weight: 700;
   color: #0b23f4;
-  text-transform: uppercase;
 }
 
-.menu {
+/* --- Carte centrale --- */
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  width: 300px;
+  margin-top: 80px;
+}
+
+.titleBlue {
+  color: #0b23f4;
+  font-size: 26px;
+  margin-bottom: 40px;
+  font-weight: 600;
+  margin-top: 0;
+}
+
+.formTitle {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #000000;
+  font-weight: 500;
+}
+
+.error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+.form {
   display: flex;
-  gap: 50px;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form label {
+  color: #777;
+  font-size: 13px;
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+
+.form input {
+  padding: 20px;
+  border: 1px solid #cfcfcf;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-top: 0px;
+}
+
+.form input:focus {
+  border-color: #0b23f4;
   background: #fff;
-  padding: 0px 50px;
-  border-radius: 40px;
-  align-items: center;
+  outline: none;
 }
 
-.link {
-  text-decoration: none;
-  color: black;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.link:hover {
-  color: #0b23f4;
-}
-
-/* Séparateur vertical */
-.separator {
-  width: 1px;
-  height: 20px;
-  background-color: #0b23f4;
-  border-radius: 2px;
-  margin: 10px 0 10px 5px;
-}
-
-/* Déconnexion */
-.logout {
-  background: transparent;
+.submitBtn {
+  margin-top: 20px;
+  padding: 15px;
+  background: #0b23f4;
+  color: white;
   border: none;
-  color: #0b23f4;
-  text-align: left;
-  padding: 10px;
-  cursor: pointer;
+  border-radius: 10px;
   font-size: 14px;
+  cursor: pointer;
 }
 
-.brand {
-  display: flex;
-  align-items: center; /* aligne verticalement */
-  gap: 8px;            /* espace entre logo et animation */
+.forgot {
+  margin-top: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 30px;
 }
+
+/* --- Colonne droite --- */
+.rightSide {
+  flex: 1;
+  overflow: hidden;
+}
+
+.rightSide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 
 
 .graphIcon {

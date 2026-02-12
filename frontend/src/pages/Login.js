@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import styles from "./Login.module.css";
+import Connexion from "../assets/icons/Connexion.jpeg";
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -26,10 +28,7 @@ const Login = () => {
         throw new Error(data.message || "Erreur de connexion");
       }
 
-      // Stocke token + userId dans le context
       login(data.token, data.userId);
-
-      // Redirection vers Dashboard
       navigate("/dashboard");
     } catch (err) {
       setError(err.message);
@@ -37,30 +36,63 @@ const Login = () => {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: "50px auto", padding: 20, background: "#fff", borderRadius: 8 }}>
-      <h2>Connexion</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username</label>
-          <input 
-            type="text" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            required 
-          />
+    <div className={styles.loginPage}>
+      
+      {/* Colonne gauche */}
+      <div className={styles.leftSide}>
+        
+        {/* Mini header */}
+        <div className={styles.headerMini}>
+          <div className={styles.graphIcon}>
+            <span className={styles.bar}></span>
+            <span className={styles.bar}></span>
+            <span className={styles.bar}></span>
+            <span className={styles.bar}></span>
+            <span className={styles.bar}></span>
+          </div>
+
+          <div className={styles.logo}>SportSee</div>
         </div>
-        <div>
-          <label>Password</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
+
+        {/* Carte */}
+        <div className={styles.card}>
+          <h1 className={styles.titleBlue}>Transformez <br />
+          vos stats en résultats</h1>
+
+          <h2 className={styles.formTitle}>Se connecter</h2>
+
+          {error && <p className={styles.error}>{error}</p>}
+
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <label>Adresse email</label>
+            <input 
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+
+            <label>Mot de passe</label>
+            <input 
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <button type="submit" className={styles.submitBtn}>
+              Se connecter
+            </button>
+
+            <div className={styles.forgot}>Mot de passe oublié ?</div>
+          </form>
         </div>
-        <button type="submit" style={{ marginTop: 10 }}>Se connecter</button>
-      </form>
+      </div>
+
+      {/* Colonne droite */}
+      <div className={styles.rightSide}>
+         <img src={Connexion} alt="La course à pied" />
+      </div>
     </div>
   );
 };

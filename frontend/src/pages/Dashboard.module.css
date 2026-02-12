@@ -106,7 +106,7 @@ body {
 .distanceCard {
   background: #0b23f4;;
   border-radius: 12px;
-  padding: 30px 30px;
+  padding: 15px 20px;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -114,9 +114,13 @@ body {
 }
 
 /* Icône */
-.icon {
-  font-size: 24px;
+.icon img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  display: block;
 }
+
 
 /* Valeur */
 .value {
@@ -143,6 +147,14 @@ body {
   background: white;
   border-radius: 16px;
   padding: 20px;
+}
+
+.graph {
+  width: 100%;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .graphHeader {
@@ -220,9 +232,9 @@ body {
   margin: 10px;
 }
 
-.graph {
+.graphBpm {
   width: 100%;
-  height: 350px;
+  height: 380px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -236,6 +248,17 @@ body {
   font-size: 12px;
 }
 
+:global(.recharts-tooltip-wrapper) {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+:global(.recharts-wrapper *:focus) {
+  outline: none !important;
+}
+
+
 .customTooltip .tooltipLabel {
   margin-bottom: 6px; 
 }
@@ -244,6 +267,39 @@ body {
   font-weight: bold;
 }
 
+.legendContainer {
+    display: flex;
+    justify-content:flex-start;
+    transform: translateY(20px); 
+}
+
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Couleurs */
+.minDot {
+  background: #fcc1b6;
+}
+
+.maxDot {
+  background: #f4320b;
+}
+
+.moyDot {
+  background: #0b23f4;
+}
 
 
 

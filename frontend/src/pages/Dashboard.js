@@ -3,6 +3,8 @@ import { useUser } from "../context/UserContext";
 import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import styles from "./Dashboard.module.css";
+import IconeDistance from "../assets/icons/Icone_Distance.jpeg";
+
 
 import {
   ResponsiveContainer,
@@ -37,6 +39,9 @@ const Dashboard = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [distanceIndex, setDistanceIndex] = useState(0);
   const [bpmIndex, setBpmIndex] = useState(0);
+  const [isAvgHovered, setIsAvgHovered] = useState(false);
+
+
 
   // 🔥 LOADING / NO DATA
   if (loading) return <p>Chargement des données...</p>;
@@ -136,35 +141,29 @@ const Dashboard = () => {
     return null;
   };
 
-  const CustomLegend = () => {
-    return (
-      <div style={{
-        display: "flex",
-        gap: "12px",
-        marginLeft: "30px",
-         
-      }}>
-
-        
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#fcc1b6" }}></span>
-          <span>Min</span>
-        </div>
-
-         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#f4320b" }}></span>
-          <span>Max</span>
-        </div>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-          <span style={{ width: 10, height: 10, borderRadius: "50%", background: "#0b23f4" }}></span>
-          <span>Moy</span>
-        </div>
-
-                
+ const CustomLegend = () => {
+  return (
+    <div className={styles.legendContainer}>
+      
+      <div className={styles.legendItem}>
+        <span className={`${styles.legendDot} ${styles.minDot}`}></span>
+        <span>Min</span>
       </div>
-    );
-  };
+
+      <div className={styles.legendItem}>
+        <span className={`${styles.legendDot} ${styles.maxDot}`}></span>
+        <span>Max BPM</span>
+      </div>
+
+      <div className={styles.legendItem}>
+        <span className={`${styles.legendDot} ${styles.moyDot}`}></span>
+        <span>Moy BPM</span>
+      </div>
+
+    </div>
+  );
+};
+
 
 
   const { weekStart, weekEnd, formattedStart, formattedEnd } = getCurrentWeekRange();
@@ -177,10 +176,7 @@ const {
   donutData,
 } = computeWeeklyStats(safeSessions, weekStart);
 
-console.log(
-  "Dates des 10 dernières sessions :",
-  safeSessions.slice(-10).map(s => s.date)
-);
+
 
   return (
     <div className={styles.container}>
@@ -210,7 +206,9 @@ console.log(
           <div className={styles.distanceWrapper}>
             <p className={styles.label}>Distance totale parcourue</p>
             <div className={styles.distanceCard}>
-              <span className={styles.icon}>🏃‍♂️</span>
+              <span className={styles.icon}>
+                <img src={IconeDistance} alt="Distance totale parcourue" />
+              </span>
               <h2 className={styles.value}>{statistics.totalDistance ?? 0} km</h2>
             </div>
           </div>
@@ -252,7 +250,7 @@ console.log(
                   >
                     <XAxis dataKey="week" tickLine={false} tick={{ fontSize: 11, dy: 15 }} />
                     <YAxis tickLine={false} ticks={getYTicks()} tick={{ fontSize: 11, dx: -10 }}  />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<CustomTooltip />} cursor={false} />
                   
                     <Bar dataKey="km" barSize={14} radius={[10, 10, 10, 10]}>
                       {weeklyDistanceData.map((entry, index) => (
@@ -291,7 +289,7 @@ console.log(
 
               <p className={styles.summary}>Fréquence cardiaque moyenne</p>
 
-              <div className={styles.graph}>
+              <div className={styles.graphBpm}>
                 <ResponsiveContainer>
                   <ComposedChart
                     data={heartRateData}
@@ -299,18 +297,23 @@ console.log(
                   >
                     <XAxis dataKey="day" tickLine={false} tick={{ fontSize: 12, dy: 15 }} />
                     <YAxis tickLine={false} tick={{ fontSize: 11, dx: -10 }} />
-                    <Tooltip />
+                    <Tooltip wrapperStyle={{ display: "none" }} cursor={false} />
 
-                    <Bar dataKey="min" barSize={12} fill="#fcc1b6" radius={[6, 6, 0, 0]} />
-                    <Bar dataKey="max" barSize={12} fill="#f4320b" radius={[6, 6, 0, 0]} />
 
-                    <Line
+                    <Bar dataKey="min" barSize={14} fill="#fcc1b6" radius={[10, 10, 10, 10]} />
+                    <Bar dataKey="max" barSize={14} fill="#f4320b" radius={[10, 10, 10, 10]} />
+
+                   <Line
                       type="monotone"
                       dataKey="avg"
-                      stroke="#0b23f4"
+                      dot={{ r: 3, fill: "#0b23f4", stroke: "#0b23f4", }}
+                      stroke={isAvgHovered ? "#0b23f4" : "#b6bdfc"}  
                       strokeWidth={3}
-                      dot={{ r: 5, fill: "#0b23f4" }}
+                      onMouseOver={() => setIsAvgHovered(true)}
+                      onMouseOut={() => setIsAvgHovered(false)}
+                      activeDot={false}
                     />
+
 
                    <Legend content={<CustomLegend />} />
 

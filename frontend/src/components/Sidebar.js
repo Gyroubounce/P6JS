@@ -32,7 +32,7 @@ const Sidebar = () => {
         <div className={styles.separator}></div>
 
         <button onClick={handleLogout} className={styles.logout}>
-          Déconnexion
+          Se déconnecter
         </button>
       </nav>
     </div>
