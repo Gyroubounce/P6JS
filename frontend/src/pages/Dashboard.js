@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import Footer from "../components/Footer";
 import styles from "./Dashboard.module.css";
 import IconeDistance from "../assets/icons/Icone_Distance.jpeg";
-
+import '../index.css';
 
 import {
   ResponsiveContainer,
@@ -166,7 +166,7 @@ const Dashboard = () => {
 
 
 
-  const { weekStart, weekEnd, formattedStart, formattedEnd } = getCurrentWeekRange();
+  const { weekStart, formattedStart, formattedEnd } = getCurrentWeekRange();
 
 const {
   done,
@@ -174,7 +174,7 @@ const {
   weeklyDuration,
   weeklyDistance,
   donutData,
-} = computeWeeklyStats(safeSessions, weekStart);
+} = computeWeeklyStats(safeSessions, weekStart, );
 
 
 

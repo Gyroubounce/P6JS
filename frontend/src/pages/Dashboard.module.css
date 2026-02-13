@@ -1,11 +1,3 @@
-body {
-  background-color: #f2f3ff;
-  margin: auto; 
-  min-width: 1024px;
-  min-height: 768px;
-  max-width: 1440px;
-  font-family: 'Arial', sans-serif;
-}
 
 .container {
   background: #f2f3ff;
@@ -13,6 +5,7 @@ body {
 
 .main {
   margin: auto;
+  margin-top: 50px;
   padding: 20px;
   max-width: 1140px;
 }

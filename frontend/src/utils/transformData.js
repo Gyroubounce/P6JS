@@ -133,3 +133,4 @@ export const getBPM = (sessions) => {
   return { avgHeartRate };
 };
 
+

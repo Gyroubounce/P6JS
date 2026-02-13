@@ -1,7 +1,6 @@
 
 .loginPage {
   display: flex;
-
   height: 100vh;
   background: #f2f3ff;
 }
@@ -23,6 +22,7 @@
   position: absolute; 
   top: 30px; 
   left: auto;
+  margin-left: 140px;
 }
 
 
@@ -48,6 +48,7 @@
   border-radius: 16px;
   width: 300px;
   margin-top: 80px;
+  margin-left: 140px;
 }
 
 .titleBlue {
