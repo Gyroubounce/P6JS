@@ -1,0 +1,36 @@
+.legendContainer {
+    display: flex;
+    justify-content:flex-start;
+    transform: translateY(20px); 
+    margin-left: 35px;
+    gap: 20px;
+}
+
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text);
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Couleurs */
+.minDot {
+  background: #fcc1b6;
+}
+
+.maxDot {
+  background: #f4320b;
+}
+
+.moyDot {
+  background: #0b23f4;
+}
+

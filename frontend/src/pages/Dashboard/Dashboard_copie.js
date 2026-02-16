@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useUser } from "../context/UserContext";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import { useUser } from "../../context/UserContext";
+import Sidebar from "../../components/Sidebar";
+import Footer from "../../components/Footer";
 import styles from "./Dashboard.module.css";
-import IconeDistance from "../assets/icons/Icone_Distance.jpeg";
-import '../index.css';
+import IconeDistance from "../../assets/icons/Icone_Distance.jpeg";
+
 
 import {
   ResponsiveContainer,
@@ -27,10 +27,10 @@ import {
   getHeartRateSummary,
   getBPM,
   getAverageKmForBlock
-} from "../utils/transformData";
+} from "../../utils/transformData";
 
-import { getWeekRange, getCurrentWeekRange, parseLocalDate, formatDateTimeFR } from "../utils/dateUtils";
-import { computeWeeklyStats } from "../utils/WeekUtils";
+import { getWeekRange, getCurrentWeekRange, parseLocalDate, formatDateTimeFR } from "../../utils/dateUtils";
+import { computeWeeklyStats } from "../../utils/WeekUtils";
 
 const Dashboard = () => {
   const { userData, loading } = useUser();

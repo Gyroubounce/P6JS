@@ -1,10 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Dashboard from "../pages/Dashboard";
-import Profile from "../pages/Profile";
-import Login from "../pages/Login";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import Profile from "../pages/Profile/Profile";
+import Login from "../pages/Login/Login";
 import { AuthProvider } from "../context/AuthContext";
 import { UserProvider } from "../context/UserContext";
+import NotFound from "../pages/NotFound/NotFound";
 
 const AppRouter = () => {
   return (
@@ -15,7 +16,7 @@ const AppRouter = () => {
             <Route path="/" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="*" element={<Navigate to="/" />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
       </UserProvider>

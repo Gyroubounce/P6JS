@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
+import { AuthContext } from "../../context/AuthContext";
+import Sidebar from "../../components/Sidebar";
+import Footer from "../../components/Footer";
 import styles from "./Profile.module.css";
-import '../index.css';
+import '../../index.css';
 
 
-import { transformUserData } from "../utils/transformUserData";
-import { formatDateTimeFR } from "../utils/dateUtils";
+import { transformUserData } from "../../utils/transformUserData";
+import { formatDateTimeFR } from "../../utils/dateUtils";
 
 
 const Profile = () => {

@@ -1,5 +1,9 @@
-[
-  { "id": 1, "name": "Emma", "age": 25 },
-  { "id": 2, "name": "Marc", "age": 30 },
-  { "id": 3, "name": "Sophie", "age": 28 }
-]
+{
+  "users": [
+    {
+      "email": "john.doe@example.com",
+      "password": "password123",
+      "token": "mock-jwt-token-123456789"
+    }
+  ]
+}
