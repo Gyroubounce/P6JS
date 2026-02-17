@@ -132,34 +132,39 @@
 
 .graphIcon {
   display: flex;
-  gap: 2px;
+  gap: 1px;
   align-items: flex-end;
-  height: 48px;
+  height: 40px;
+
+  transform: translateY(-6px) scale(0.8);
 }
 
-.graphIcon {
-  transform: translateY(-15px); /* remonte */
-}
 
 
 /* Style commun */
 .bar {
-  width: 3px;
+  width: 4px;
   background: linear-gradient(to top,
     #0b23f4 0%,
     #0b23f4 20%,
-    #f4320b 40%,
+    #f4320b 20%,
     #f4320b 100%
   );
-  border-radius: 2px;
+ clip-path: polygon(
+  30% 0%,   /* point en haut à gauche */
+  90% 0%,   /* point en haut à droite */
+  100% 100%,/* bas droite */
+  0% 100%   /* bas gauche */
+);
+
 }
 
 
 /* Marges fixes pour chaque barre (sol différent) */ 
 .bar:nth-child(1) { margin-bottom: 2px; } 
 .bar:nth-child(2) { margin-bottom: 0px; } 
-.bar:nth-child(3) { margin-bottom: 3px; } 
-.bar:nth-child(4) { margin-bottom: 2px; } 
+.bar:nth-child(3) { margin-bottom: 4px; } 
+.bar:nth-child(4) { margin-bottom: 0px; } 
 .bar:nth-child(5) { margin-bottom: 3px; }
 
 /* BARRE 1 — commence très bas, monte, redescend, remonte */
@@ -216,12 +221,12 @@
 }
 
 @keyframes b4 {
-  0%   { height: 16%; }   /* bas long */
-  30%  { height: 16%; }   /* 🔥 bas rallongé */
-  30%  { height: 25%; }
-  45%  { height: 35%; }
+  0%   { height: 20%; }   /* bas long */
+  30%  { height: 20%; }   /* 🔥 bas rallongé */
+  30%  { height: 30%; }
+  45%  { height: 40%; }
   65%  { height: 35%; }   /* 🔥 haut rallongé */
-  80%  { height: 28%; }
+  80%  { height: 30%; }
   100% { height: 20%; }
 }
 

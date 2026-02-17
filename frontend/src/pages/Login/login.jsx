@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../hooks/useLogin";
 import styles from "./Login.module.css";
 import Connexion from "../../assets/icons/Connexion.jpeg";
+import logo from "../../assets/icons/logo.png";
 
 const Login = () => {
   const { submitLogin, error } = useLogin();
@@ -12,6 +13,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log("📨 FORMULAIRE ENVOIE :", { username, password });
     const ok = await submitLogin(username, password);
     if (ok) navigate("/dashboard");
   };
@@ -32,7 +35,9 @@ const Login = () => {
                 <span className={styles.bar}></span>
               </div>
     
-              <div className={styles.logo}>SportSee</div>
+              <div className={styles.logo}>
+                <img src={logo} alt="SportSee logo" />
+              </div>
             </div>
     
             {/* Carte */}

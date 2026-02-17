@@ -5,6 +5,9 @@ import { fetchUserInfo } from "../api/user";
 import { fetchUserSessions } from "../api/session";
 import { transformUserData } from "../utils/transformUserData";
 
+import { USE_MOCK } from "../config";
+import { userMock } from "../mocks/userMockContext";
+
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -30,6 +33,20 @@ export const UserProvider = ({ children }) => {
       try {
         setLoading(true);
 
+        // ⭐ MODE MOCK — aucune modification du reste du code
+      if (USE_MOCK) {
+        const transformed = transformUserData(userMock, userMock.sessions);
+
+        setUserData({ 
+          profile: transformed.profile ?? {}, 
+          statistics: transformed.statistics ?? {}, 
+          sessions: transformed.sessions ?? [], 
+          ...transformed, 
+        }); 
+        return; 
+      }
+       
+       // ⭐ MODE API RÉELLE — ton code reste intact
         const user = await fetchUserInfo(token);
         const sessions = await fetchUserSessions(token);
 
