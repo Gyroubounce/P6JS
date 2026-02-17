@@ -7,7 +7,7 @@ import { transformUserData } from "../utils/transformUserData";
 
 import { USE_MOCK } from "../config";
 import { userMock } from "../mocks/userMockContext";
-
+console.log("AUTH USE_MOCK =", USE_MOCK);
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -17,6 +17,8 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("USERCONTEXT → token reçu =", token);
+
     if (token === null) return;
 
     if (!token) {
@@ -48,7 +50,13 @@ export const UserProvider = ({ children }) => {
        
        // ⭐ MODE API RÉELLE — ton code reste intact
         const user = await fetchUserInfo(token);
-        const sessions = await fetchUserSessions(token);
+        let sessions = await fetchUserSessions(token);
+
+        // ⭐ OPTION B : fallback mock si aucune session API 
+        if (!sessions || sessions.length === 0) { 
+          console.warn("⚠️ Aucune session API trouvée, fallback vers userMock.sessions"); 
+          sessions = userMock.sessions; 
+        }
 
         const transformed = transformUserData(user, sessions);
 
@@ -75,6 +83,7 @@ export const UserProvider = ({ children }) => {
 
     load();
   }, [token]);
+console.log("TOKEN REÇU PAR USERCONTEXT :", token);
 
   return (
     <UserContext.Provider value={{ userData, loading }}>

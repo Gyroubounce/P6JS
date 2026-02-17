@@ -32,11 +32,36 @@ const useUser = () => {
   // ------------------------------------------------------------
   // 🔥 LOADING / NO DATA
   // ------------------------------------------------------------
-  if (loading) return { loading: true };
-  if (!userData) return { loading: false, noData: true };
-  if (!userData.sessions || userData.sessions.length === 0) {
-    return { loading: false, noSessions: true };
+
+  if (loading) {
+    return {
+      loading: true,
+      profile: null,
+      statistics: null,
+      sessions: [],
+    };
   }
+
+  if (!userData) {
+    return {
+      loading: false,
+      noData: true,
+      profile: null,
+      statistics: null,
+      sessions: [],
+    };
+  }
+
+  if (!userData.sessions || userData.sessions.length === 0) {
+    return {
+      loading: false,
+      noSessions: true,
+      profile: userData.profile ?? {},
+      statistics: userData.statistics ?? {},
+      sessions: [],
+    };
+  }
+
 
   // ------------------------------------------------------------
   // 🔥 SÉCURISATION DES DONNÉES

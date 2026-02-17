@@ -1,16 +1,16 @@
 import React, { createContext, useState, useEffect } from "react";
-import { USE_MOCK } from "../config"; 
-import { mockLogin } from "../mocks/authMockContext"; 
+import { USE_MOCK } from "../config";
+import { loginRequest } from "../api/auth"; // ⭐ On utilise ton API réelle
 
-// Création du contexte
+console.log("AUTH USE_MOCK =", USE_MOCK);
+
 export const AuthContext = createContext();
 
-// Provider
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
 
-  // Au démarrage, on récupère le token et userId du localStorage
+  // Charger token + userId depuis localStorage
   useEffect(() => {
     const savedToken = localStorage.getItem("token");
     const savedUserId = localStorage.getItem("userId");
@@ -19,31 +19,59 @@ export const AuthProvider = ({ children }) => {
     if (savedUserId) setUserId(savedUserId);
   }, []);
 
-  // Fonction pour login : stocke token + userId
-  const login = async (email, password) => { 
-    
-  // ⭐ MODE MOCK — aucune modification du reste du code 
-  if (USE_MOCK) { const data = mockLogin(email, password); 
-    localStorage.setItem("token", data.token); 
-    localStorage.setItem("userId", "1"); // ID mock 
-    setToken(data.token); 
-    setUserId("1"); 
-    return; } 
-    
+  // ------------------------------------------------------------
+  // 🔥 LOGIN MOCK + API
+  // ------------------------------------------------------------
+  const login = async (username, password) => {
+
+    // ⭐ MODE MOCK
+    if (USE_MOCK) {
+      console.log("🔍 LOGIN MOCK :", username, password);
+
+      if (username === "johndoe" && password === "password123") {
+        const token = "mock-jwt-token";
+        const userId = "1";
+
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", userId);
+
+        setToken(token);
+        setUserId(userId);
+
+        return;
+      }
+
+      throw new Error("Identifiants incorrects (mock)");
+    }
+
     // ⭐ MODE API RÉELLE
-    localStorage.setItem("token", email); 
-    localStorage.setItem("userId", password); 
-    setToken(email); 
-    setUserId(password); 
+    try {
+      const data = await loginRequest(username, password);
+
+      // data = { token, userId }
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userId", data.userId);
+
+      setToken(data.token);
+      setUserId(data.userId);
+
+    } catch (err) {
+      console.error("Erreur login API :", err);
+      throw err;
+    }
   };
- 
-    // Fonction pour logout : supprime token + userId
+
+  // ------------------------------------------------------------
+  // 🔥 LOGOUT
+  // ------------------------------------------------------------
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     setToken(null);
     setUserId(null);
   };
+
+  console.log("AUTH PROVIDER → token =", token, "userId =", userId);
 
   return (
     <AuthContext.Provider value={{ token, userId, login, logout }}>

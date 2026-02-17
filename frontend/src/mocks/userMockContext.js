@@ -1,40 +1,41 @@
 export const userMock = {
+  id: 1,
+
   profile: {
-    id: 1,
     firstName: "John",
     lastName: "Doe",
-    age: 32,
-    gender: "Homme",
-    height: 178,
-    weight: 74,
-    profilePicture: "/avatar.png",
-    createdAt: "2023-01-12T10:24:00"
+    age: 31,
   },
 
   statistics: {
-    totalDistance: 245,
-    totalDuration: { hours: 32, minutes: 45 },
-    totalSessions: 48,
-    totalCalories: 15240,
-    restDays: 12
+    calorieCount: 1930,
+    proteinCount: 155,
+    carbohydrateCount: 290,
+    lipidCount: 50,
   },
+
+  todayScore: 0.7,
 
   sessions: [
     {
-      id: 101,
-      date: "2024-01-03T08:30:00",
+      date: "2024-01-01",
       distance: 5.2,
-      duration: 32,
-      calories: 320,
-      bpm: { min: 110, max: 165, avg: 142 }
+      heartRate: { min: 120, max: 160 }
     },
     {
-      id: 102,
-      date: "2024-01-05T18:10:00",
-      distance: 7.8,
-      duration: 48,
-      calories: 450,
-      bpm: { min: 115, max: 170, avg: 148 }
+      date: "2024-01-02",
+      distance: 6.1,
+      heartRate: { min: 118, max: 158 }
+    },
+    {
+      date: "2024-01-03",
+      distance: 4.8,
+      heartRate: { min: 122, max: 165 }
+    },
+    {
+      date: "2024-01-04",
+      distance: 7.0,
+      heartRate: { min: 125, max: 170 }
     }
   ]
 };

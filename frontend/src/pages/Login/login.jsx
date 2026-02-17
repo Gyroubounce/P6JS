@@ -5,19 +5,29 @@ import styles from "./Login.module.css";
 import Connexion from "../../assets/icons/Connexion.jpeg";
 import logo from "../../assets/icons/logo.png";
 
+
+
 const Login = () => {
   const { submitLogin, error } = useLogin();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    console.log("📨 FORMULAIRE ENVOIE :", { username, password });
-    const ok = await submitLogin(username, password);
-    if (ok) navigate("/dashboard");
-  };
+  
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  console.log("📨 FORMULAIRE ENVOIE :", { username, password });
+
+  // 👉 On ne fait PLUS mockLogin ici
+  // 👉 On laisse useLogin gérer mock / API
+  const ok = await submitLogin(username, password);
+
+  if (ok) {
+    navigate("/dashboard");
+  }
+};
 
   return (
      <div className={styles.loginPage}>
