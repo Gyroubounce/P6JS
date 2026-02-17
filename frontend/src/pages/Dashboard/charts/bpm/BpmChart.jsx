@@ -19,7 +19,7 @@ const BpmChart = ({
     <ResponsiveContainer>
       <ComposedChart
         data={heartRateData}
-        margin={{ top: 20, right: 20, left: 0, bottom: 20 }}
+        margin={{ top: 20, right: 20, left: 0, bottom: 25 }}
       >
         <XAxis
           dataKey="day"

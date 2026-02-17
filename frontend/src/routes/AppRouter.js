@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Profile from "../pages/Profile/Profile";
-import Login from "../pages/Login/Login";
+import Login from "../pages/Login/login";
 import { AuthProvider } from "../context/AuthContext";
 import { UserProvider } from "../context/UserContext";
 import NotFound from "../pages/NotFound/NotFound";

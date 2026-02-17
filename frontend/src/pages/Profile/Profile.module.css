@@ -3,6 +3,7 @@
 background: #f2f3ff;
 display: flex;
 flex-direction: column;
+align-items: center;
 min-height: 100vh;
 }
 
@@ -14,6 +15,7 @@ min-height: 100vh;
   padding: 20px;
   max-width: 1140px;
   min-height: max-content;
+  width: 100%;
   flex: 1;
 }
 

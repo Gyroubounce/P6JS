@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import logo from "../assets/icons/logo.png";
 import styles from "./Sidebar.module.css";
 
 const Sidebar = () => {
@@ -22,7 +23,9 @@ const Sidebar = () => {
           <span className={styles.bar}></span> 
           <span className={styles.bar}></span> 
         </div> 
-        <div className={styles.logo}>SportSee</div> 
+        <div className={styles.logo}>
+          <img src={logo} alt="SportSee logo" />
+        </div>
       </div>
       <nav className={styles.menu}>
         <Link to="/dashboard" className={styles.link}>Dashboard</Link>
