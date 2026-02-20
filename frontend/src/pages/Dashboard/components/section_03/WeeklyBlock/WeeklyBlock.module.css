@@ -19,7 +19,9 @@
 
 
 .weekStats {
-  display: flex;
+  display: grid;
+  grid-template-columns: 450px 1fr;
   gap: 24px;
   align-items: flex-start;
 }
+
