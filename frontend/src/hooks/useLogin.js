@@ -1,5 +1,4 @@
 import { useState, useContext } from "react";
-import { loginRequest } from "../api/auth";
 import { AuthContext } from "../context/AuthContext";
 
 import { USE_MOCK } from "../config";
@@ -16,30 +15,19 @@ export const useLogin = () => {
 
     // 🔵 MODE MOCK
     if (USE_MOCK) {
-      console.log("🟦 MODE MOCK ACTIVÉ");
-
       try {
-        const data = mockLogin(username, password);
-        console.log("🟩 MOCK LOGIN OK :", data);
-
-        login(username, password);
+        mockLogin(username, password);
+        await login(username, password); // utilise le login du AuthContext
         return true;
-
       } catch (err) {
-        console.log("❌ MOCK LOGIN ERROR :", err.message);
         setError(err.message);
         return false;
       }
     }
 
     // 🔴 MODE API RÉELLE
-    console.log("🟥 MODE API ACTIVÉ");
-
     try {
-      const data = await loginRequest(username, password);
-      console.log("🟩 API LOGIN OK :", data);
-
-      login(username, password);
+      await login(username, password); // AuthContext gère loginRequest
       return true;
 
     } catch (err) {
