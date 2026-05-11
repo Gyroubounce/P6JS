@@ -1,0 +1,41 @@
+.detailCard {
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.detailTitle {
+  margin-left: 20px;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.detailValueBlue,
+.detailValueRed {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 24px;
+}
+
+.detailValueBlue {
+  color: var(--color-blue);
+}
+
+.detailValueRed {
+  color: var(--color-red);
+}
+
+.unitBlue {
+  font-size: 16px;
+  color: var(--color-blue-light);
+}
+
+.unitRed {
+  font-size: 16px;
+  color: var(--color-red-light);
+}

@@ -9,7 +9,8 @@ app.use(cors());
 app.use(bodyParser.json());
 const port = 8000;
 
+app.use('/images', express.static('images'));
 app.use(router);
-router.use('/images', express.static('images'));
+//*router.use('/images', express.static('images'));
 
 app.listen(port, () => console.log(`Magic happens on port ${port}`));

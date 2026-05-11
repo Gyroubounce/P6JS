@@ -1,0 +1,457 @@
+
+.container {
+  background: #f2f3ff;
+}
+
+.main {
+  margin: auto;
+  margin-top: 50px;
+  padding: 20px;
+  max-width: 1052px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+/* Section 1 */
+.profileSection {
+  display: flex;
+  justify-content: space-between;
+  background: linear-gradient(white 50%, #f2f3ff 100%);
+  border-radius: 16px;
+  align-items: center;
+}
+
+.profileCard {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding: 35px;
+}
+
+.photo {
+  width: 104px;
+  height: 117px;
+  border-radius: 10px;
+  margin-left: 10px;
+  overflow: hidden; /* 🔥 empêche le cadre de bouger */
+}
+
+/* L’image prend toute la place */
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease; /* 🔥 transition fluide */
+}
+
+/* Le zoom ne s’applique qu’à l’image */
+.photo:hover img {
+  transform: scale(1.1); /* 🔥 zoom interne */
+}
+
+
+.name,
+.memberSince {
+  margin: 0;
+  margin-left: 20px;
+}
+
+.name {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.memberSince {
+  font-size: 14px;
+  color: #666;
+}
+
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* espace entre les deux */
+}
+
+.distanceWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.label {
+  font-size: 14px;
+  color: #666;
+  margin-right: 10px;
+}
+
+.performanceSection h3 {
+  margin-top: 60px;
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* Carte */
+.distanceCard {
+  background: #0b23f4;;
+  border-radius: 12px;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 50px;
+}
+
+/* Icône */
+.icon img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  display: block;
+}
+
+
+/* Valeur */
+.value {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 400;
+  color: white;
+}
+
+/* Section 2 */
+.performanceSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.graphs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.graphCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.graph {
+  width: 100%;
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.graphHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.customLegend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px; /* espace sous le graph */
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 35px;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #7582f8; 
+}
+
+.legendText {
+  font-size: 12px;
+  color: #666; 
+}
+
+
+.titleBlue {
+  color: #0b23f4;
+  font-weight: lighter;  
+  font-size: 24px;
+  margin: 10px;
+}
+
+.titleRed {
+  color: #f4320b;
+  font-weight: lighter;
+  font-size: 24px;
+  margin: 10px;
+}
+
+.periodSelector {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  gap: 8px;
+}
+
+.periodSelector button {
+  background: none;
+  border: 1px solid #666;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.periodSelector button:hover {
+  background: #0b23f4;    
+  border-color: #0b23f4;   
+  color: white;    
+}
+
+.summary {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  margin: 10px;
+}
+
+.graphBpm {
+  width: 100%;
+  height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customTooltip {
+  background-color: #000;
+  color: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+:global(.recharts-tooltip-wrapper) {
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+:global(.recharts-wrapper *:focus) {
+  outline: none !important;
+}
+
+
+.customTooltip .tooltipLabel {
+  margin-bottom: 6px; 
+}
+
+.customTooltip .tooltipValue {
+  font-weight: bold;
+}
+
+.legendContainer {
+    display: flex;
+    justify-content:flex-start;
+    transform: translateY(20px); 
+}
+
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #666;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* Couleurs */
+.minDot {
+  background: #fcc1b6;
+}
+
+.maxDot {
+  background: #f4320b;
+}
+
+.moyDot {
+  background: #0b23f4;
+}
+
+
+
+/* Section 3 */
+.weekSection {
+  display: flex;
+  flex-direction: column;
+}
+.weekSection h3 {
+  margin-top: 50px;
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 0;
+}
+
+.dateWeek {
+  margin: 0;
+  color: #666;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+
+.weekStats {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* Donut Card */
+.donutCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: left;
+  width: 200px;
+  flex: 1;  
+}
+
+.donutHeader {
+  display: flex;
+  justify-content: left;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.donutTitle {
+  font-size: 16px;
+  color: #b6bdfc; 
+}
+
+.donutValue {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0b23f4;
+  margin-left: 20px;
+}
+
+.donutLabel {
+  margin-left: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.donut {
+  width: 300px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+}
+
+.donutRow {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+}
+
+.legendLeft,
+.legendRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #666
+}
+
+.legendLeft {
+   transform: translateY(50px); 
+   margin-right: -70px;
+
+}
+
+.legendRight {
+  transform: translateY(-60px); 
+  margin-left: -80px;
+}
+
+.dotBlue {
+  width: 8px;
+  height: 8px;
+  background: #4e73df;
+  border-radius: 50%;
+}
+
+.dotGrey {
+  width: 8px;
+  height: 8px;
+  background: #b6bdfc;
+  border-radius: 50%;
+}
+
+/* Détails durée et distance */
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;  
+}
+
+.detailCard {
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.detailTitleBlue {
+  margin-left: 20px;
+  margin-bottom: 0;
+  font-size: 14px;
+  color: #666
+}
+
+.detailValue,
+.detailValueRed {
+  margin-left: 20px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 24px;
+}
+
+
+.detailValue {
+  color: #0b23f4;
+}
+
+.detailValueRed {
+  color: #f4320b;
+}
+
+.unitBlue {
+  font-size: 16px;
+  color: #b6bdfc;
+}
+
+.unitRed {
+  font-size: 16px;
+  color: #fcc1b6;
+}
+

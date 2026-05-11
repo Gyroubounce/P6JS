@@ -1,0 +1,27 @@
+/* Section 3 */
+.weekSection {
+  display: flex;
+  flex-direction: column;
+}
+.weekSection h3 {
+  margin-top: 50px;
+  font-weight: 400;
+  font-size: 24px;
+  margin-bottom: 0;
+}
+
+.dateWeek {
+  margin: 0;
+  color: #666;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+
+.weekStats {
+  display: grid;
+  grid-template-columns: 450px 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+

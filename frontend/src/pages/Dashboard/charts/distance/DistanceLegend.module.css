@@ -1,0 +1,25 @@
+.customLegend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 35px;
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #7582f8;
+}
+
+.legendText {
+  font-size: 12px;
+  color: var(--color-text);
+}

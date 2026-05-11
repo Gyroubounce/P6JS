@@ -1,0 +1,16 @@
+.section {
+  margin-bottom: 24px;
+}
+
+/* Section 2 */
+.performanceSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.graphs {
+  display: grid;
+  grid-template-columns: 445px 1fr;
+  gap: 24px;
+}

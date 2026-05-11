@@ -1,0 +1,180 @@
+.sidebar {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1140px;
+  margin: auto;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0b23f4;
+  text-transform: uppercase;
+}
+
+.menu {
+  display: flex;
+  gap: 40px;
+  background: #fff;
+  padding: 0px 50px;
+  border-radius: 40px;
+  align-items: center;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.link:hover {
+  color: #0b23f4;
+}
+
+/* Séparateur vertical */
+.separator {
+  width: 1px;
+  height: 15px;
+  background-color: #0b23f4;
+  border-radius: 2px;
+  margin: 10px 0 10px 5px;
+}
+
+/* Déconnexion */
+.logout {
+  background: transparent;
+  border: none;
+  color: #0b23f4;
+  text-align: left;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center; /* aligne verticalement */
+  gap: 1px;            /* espace entre logo et animation */
+}
+
+
+.graphIcon {
+  display: flex;
+  gap: 1px;
+  align-items: flex-end;
+  height: 40px;
+
+  transform: translateY(-6px) scale(0.8);
+}
+
+
+
+/* Style commun */
+.bar {
+  width: 4px;
+  background: linear-gradient(to top,
+    #0b23f4 0%,
+    #0b23f4 20%,
+    #f4320b 20%,
+    #f4320b 100%
+  );
+ clip-path: polygon(
+  30% 0%,   /* point en haut à gauche */
+  90% 0%,   /* point en haut à droite */
+  100% 100%,/* bas droite */
+  0% 100%   /* bas gauche */
+);
+
+}
+
+
+/* Marges fixes pour chaque barre (sol différent) */ 
+.bar:nth-child(1) { margin-bottom: 2px; } 
+.bar:nth-child(2) { margin-bottom: 0px; } 
+.bar:nth-child(3) { margin-bottom: 4px; } 
+.bar:nth-child(4) { margin-bottom: 0px; } 
+.bar:nth-child(5) { margin-bottom: 3px; }
+
+/* BARRE 1 — commence très bas, monte, redescend, remonte */
+.bar:nth-child(1) {
+  animation: b1 2.4s infinite steps(6);
+}
+
+@keyframes b1 {
+  0%   { height: 20%; }   /* bas long */
+  30%  { height: 20%; }   /* 🔥 bas rallongé */
+  30%  { height: 20%; }
+  45%  { height: 35%; }
+  65%  { height: 35%; }   /* 🔥 haut rallongé */
+  80%  { height: 22%; }
+  100% { height: 20%; }
+}
+
+
+/* BARRE 2 — toujours plus grande que la 1 */
+.bar:nth-child(2) {
+  animation: b2 2.4s infinite steps(6);
+}
+
+@keyframes b2 {
+  00%   { height: 28%; }   /* bas long */
+  30%  { height: 28%; }   /* 🔥 bas rallongé */
+  30%  { height: 30%; }
+  45%  { height: 45%; }
+  65%  { height: 50%; }   /* 🔥 haut rallongé */
+  80%  { height: 35%; }
+  100% { height: 28%; }
+}
+
+
+/* BARRE 3 — toujours plus grande que la 2 */
+.bar:nth-child(3) {
+  animation: b3 2.4s infinite steps(6);
+}
+
+@keyframes b3 {
+  0%   { height: 25%; }   /* bas long */
+  30%  { height: 25%; }   /* 🔥 bas rallongé */
+  30%  { height: 30%; }
+  45%  { height: 50%; }
+  65%  { height: 50%; }   /* 🔥 haut rallongé */
+  80%  { height: 30%; }
+  100% { height: 28%; }
+}
+
+
+/* BARRE 4 — un peu plus petite que la 1 */
+.bar:nth-child(4) {
+  animation: b4 2.4s infinite steps(6);
+}
+
+@keyframes b4 {
+  0%   { height: 20%; }   /* bas long */
+  30%  { height: 20%; }   /* 🔥 bas rallongé */
+  30%  { height: 30%; }
+  45%  { height: 40%; }
+  65%  { height: 35%; }   /* 🔥 haut rallongé */
+  80%  { height: 30%; }
+  100% { height: 20%; }
+}
+
+
+/* BARRE 5 — comme la 3 */
+.bar:nth-child(5) {
+  animation: b5 2.4s infinite steps(6);
+}
+
+@keyframes b5 {
+  0%   { height: 28%; }   /* bas long */
+  30%  { height: 28%; }   /* 🔥 bas rallongé */
+  30%  { height: 30%; }
+  45%  { height: 50%; }
+  65%  { height: 50%; }   /* 🔥 haut rallongé */
+  80%  { height: 35%; }
+  100% { height: 28%; }
+}
+

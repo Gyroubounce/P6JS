@@ -1,0 +1,12 @@
+
+.container {
+  background: #f2f3ff;
+}
+
+.main {
+  margin: auto;
+  margin-top: 50px;
+  margin-bottom: 60px;
+  padding: 20px;
+  max-width: 1052px;
+}
