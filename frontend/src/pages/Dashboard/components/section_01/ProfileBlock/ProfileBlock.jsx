@@ -9,7 +9,11 @@ const ProfileBlock = ({ profile, statistics }) => {
       <div className={styles.profileCard}>
         <div className={styles.photo}>
           <img
-            src={profile.profilePicture || "/avatar.png"}
+            src={
+              profile.profilePicture
+                ? `${process.env.REACT_APP_API_URL}/images/${profile.profilePicture}`
+                : "/avatar.png"
+            }
             alt="Profil"
           />
         </div>
