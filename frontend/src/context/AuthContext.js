@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { USE_MOCK } from "../config";
 import { loginRequest } from "../api/auth"; // ⭐ On utilise ton API réelle
 
-("AUTH USE_MOCK =", USE_MOCK);
+
 
 export const AuthContext = createContext();
 
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 
     // ⭐ MODE MOCK
     if (USE_MOCK) {
-      ("🔍 LOGIN MOCK :", username, password);
+     
 
       if (username === "johndoe" && password === "password123") {
         const token = "mock-jwt-token";
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
     setUserId(null);
   };
 
-  ("AUTH PROVIDER → token =", token, "userId =", userId);
+
 
   return (
     <AuthContext.Provider value={{ token, userId, login, logout }}>
