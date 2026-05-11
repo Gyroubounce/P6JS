@@ -18,7 +18,7 @@ const Login = () => {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
-  ("📨 FORMULAIRE ENVOIE :", { username, password });
+
 
   // 👉 On ne fait PLUS mockLogin ici
   // 👉 On laisse useLogin gérer mock / API
