@@ -7,7 +7,7 @@ import { transformUserData } from "../utils/transformUserData";
 
 import { USE_MOCK } from "../config";
 import { userMock } from "../mocks/userMockContext";
-console.log("AUTH USE_MOCK =", USE_MOCK);
+("AUTH USE_MOCK =", USE_MOCK);
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("USERCONTEXT → token reçu =", token);
+    ("USERCONTEXT → token reçu =", token);
 
     if (token === null) return;
 
@@ -83,7 +83,7 @@ export const UserProvider = ({ children }) => {
 
     load();
   }, [token]);
-console.log("TOKEN REÇU PAR USERCONTEXT :", token);
+("TOKEN REÇU PAR USERCONTEXT :", token);
 
   return (
     <UserContext.Provider value={{ userData, loading }}>

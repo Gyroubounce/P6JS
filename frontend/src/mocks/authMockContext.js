@@ -6,19 +6,19 @@ export const authMock = {
 };
 
 export function mockLogin(username, password) {
-  console.log("🔍 Tentative de connexion MOCK :", { username, password });
-  console.log("🔍 Valeurs attendues MOCK :", authMock);
+  ("🔍 Tentative de connexion MOCK :", { username, password });
+  ("🔍 Valeurs attendues MOCK :", authMock);
 
   if (username !== authMock.username) {
-    console.log("❌ Username incorrect :", username, "≠", authMock.username);
+    ("❌ Username incorrect :", username, "≠", authMock.username);
   }
 
   if (password !== authMock.password) {
-    console.log("❌ Password incorrect :", password, "≠", authMock.password);
+    ("❌ Password incorrect :", password, "≠", authMock.password);
   }
 
   if (username === authMock.username && password === authMock.password) {
-    console.log("✅ Connexion MOCK réussie !");
+    ("✅ Connexion MOCK réussie !");
     return { token: authMock.token, userId: authMock.userId };
   }
 

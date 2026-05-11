@@ -11,7 +11,7 @@ export const useLogin = () => {
   const submitLogin = async (username, password) => {
     setError("");
 
-    console.log("🔧 USE_MOCK =", USE_MOCK);
+    ("🔧 USE_MOCK =", USE_MOCK);
 
     // 🔵 MODE MOCK
     if (USE_MOCK) {
@@ -31,7 +31,7 @@ export const useLogin = () => {
       return true;
 
     } catch (err) {
-      console.log("❌ API LOGIN ERROR :", err.message);
+      ("❌ API LOGIN ERROR :", err.message);
       setError("Identifiants incorrects");
       return false;
     }
